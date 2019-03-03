@@ -1,7 +1,6 @@
 FROM ubuntu
 
 EXPOSE 8080
-EXPOSE 8443
 
 ENV DEBIAN_FRONTEND=noninteractive \
     COMPOSER_HASH=48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5
@@ -16,15 +15,15 @@ RUN apt-get install -y php php-mysqlnd php-pgsql php-bcmath php-gd php-intl php-
 
 RUN php -v
 
-RUN apt-get install -y apache2 curl
+RUN apt-get install -y apache2 curl git-core
 
 RUN curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php && \
     php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$COMPOSER_HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('/tmp/composer-setup.php'); } echo PHP_EOL;" && \
     php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
     php -r "unlink('/tmp/composer-setup.php');"
 
-COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY conf-http/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY conf-http/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 RUN sed -i 's/${APP_PATH}/\/opt\/app-root\/src/g' /etc/apache2/sites-enabled/000-default.conf && \
     sed -i 's/^Listen 80/Listen 0.0.0.0:8080/' /etc/apache2/ports.conf && \
