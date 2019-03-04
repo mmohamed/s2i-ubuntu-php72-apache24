@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+shopt -s dotglob
+
+echo "---> Installing application source..."
+cd /opt/app-root/src
+mv /tmp/src/* ./
+
+composer install --no-interaction --no-ansi --optimize-autoloader 
+
+chown -R 1001:0 /opt/app-root/src
