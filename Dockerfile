@@ -3,6 +3,7 @@ FROM ubuntu
 EXPOSE 8080
 
 ENV DEBIAN_FRONTEND=noninteractive \
+    COMPOSER_CACHE_DIR=/tmp \
     COMPOSER_HASH=48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5 \
     SUMMARY="Platform for building and running PHP applications" \
     DESCRIPTION="PHP 7.2, Apache 2.4, Git and Composer are available at this container"
@@ -50,12 +51,12 @@ COPY ./s2i/bin/ /usr/libexec/s2i
 
 COPY ./public /opt/app-root/src/public
 
-RUN service apache2 stop && \
-   update-rc.d apache2 disable && \
-   useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin \
+RUN useradd -u 1001 -r -g 0 -d /default -s /sbin/nologin \
    -c "Default Application User" default && \
-   chown -R default:root /var/log/apache2 /opt/app-root/src/public
+   chown -R default:root /var/log/apache2 /opt/app-root/src /var/run/apache2
 
 RUN rm -rf /opt/app-root/src/*
+
+USER 1001
 
 CMD echo $SUMMARY

@@ -1,3 +1,5 @@
 #!/bin/bash
 
 apachectl -d /etc/apache2 -f apache2.conf -e info -DFOREGROUND
+# if start faild
+tail /var/log/apache2/error.log
