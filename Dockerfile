@@ -56,7 +56,7 @@ RUN service apache2 stop && \
    -c "Default Application User" default && \
    chown -R default:root /var/log/apache2 /opt/app-root/src /var/run/apache2
 
-RUN rm -rf /opt/app-root/src/* /var/log/apache2/*
+RUN rm -rf /opt/app-root/src/* /var/log/apache2/* && chmod 7777 /var/log/apache2
 
 USER 1044980000
 
