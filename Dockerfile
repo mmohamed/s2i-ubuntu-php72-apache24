@@ -51,11 +51,12 @@ COPY ./s2i/bin/ /usr/libexec/s2i
 
 COPY ./public /opt/app-root/src/public
 
-RUN useradd -u 1001 -r -g 0 -d /default -s /sbin/nologin \
+RUN service apache2 stop && \
+   useradd -u 1001 -r -g 0 -d /default -s /sbin/nologin \
    -c "Default Application User" default && \
    chown -R default:root /var/log/apache2 /opt/app-root/src /var/run/apache2
 
-RUN rm -rf /opt/app-root/src/*
+RUN rm -rf /opt/app-root/src/* /var/log/apache2/*
 
 USER 1001
 
