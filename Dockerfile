@@ -54,8 +54,8 @@ COPY ./public /opt/app-root/src/public
 RUN useradd -u 1001 -r -g 0 -d /home/default -m -s /sbin/nologin \
    -c "Default Application User" default && \
    chown -R default:root /var/log/apache2 /opt/app-root/src /var/run/apache2
-
-RUN chown -R 1044980000:0 /var/log/apache2
+# For Openshift starter
+RUN chown -R 1044980000:0  /var/log/apache2 /opt/app-root/src /var/run/apache2
 
 RUN rm -rf /opt/app-root/src/*
 
