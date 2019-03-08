@@ -11,5 +11,8 @@ mv /tmp/src/* ./
 composer install --no-interaction --no-ansi --optimize-autoloader 
 
 # just for openshift starter
-chown -R 1044980000:0 /opt/app-root/src
+#chown -R 1044980000:0 /opt/app-root/src
+echo "---> Clear cache/logs and fixing permissions..."
+rm -rf var/logs/* var/cache*
+chmod 7777 var/logs var/cache
 #chown -R 1001:0 /opt/app-root/src
