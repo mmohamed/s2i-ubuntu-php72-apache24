@@ -10,4 +10,6 @@ mv /tmp/src/* ./
 
 composer install --no-interaction --no-ansi --optimize-autoloader 
 
-chown -R 1001:0 /opt/app-root/src
+# just for openshift starter
+chown -R 1044980000:0 /opt/app-root/src
+#chown -R 1001:0 /opt/app-root/src
